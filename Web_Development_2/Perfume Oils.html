@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfume Oils - Musk Aroma</title>
+    <link rel="stylesheet" href="perfumestyles.css">
+</head>
+
+<body>
+
+
+ <!-- Black Color Stripe -->
+ <div class="black-stripe"></div>
+ <nav>
+  <div class="top-left"><h1 style="color: black;">Musk Aroma</h1>
+  <h6 style="color: black;">By Ahmed Asghar</h6></div>
+  <div class="logo">
+      <a href="Perfumehome.html">
+      <img src="../Web_Development_2/images/Logo.jpeg">
+    </a>
+  </div>
+  <div>
+  <ul class="nav-links">
+    <li><a href="../Web_Development_2/Perfumehome.html">Home</a></li>
+    <li><a href="../Web_Development_2/products.html">Shop</a></li>
+    <li><a href="../Web_Development_2/Women.html">Women</a></li>
+    <li><a href="../Web_Development_2/Men.html">Men</a></li>
+    <li><a href="../Web_Development_2/Perfume Oils.html">Perfume Oils</a></li>
+    <li><a href="../Web_Development_2/Recommended.html">Recommended</a></li>
+    <li><a href="../Web_Development_2/Offers.html">Offers</a></li>
+    <li><a href="../Web_Development_2/About.html">About</a></li>
+    
+    </ul>
+
+    <div class="search-cart">
+      <div>
+      <input type="text" placeholder="Search.." name="search" id="searchInput">
+      <button type="button" onclick="searchProducts()">Search</button>
+      <a href="../Web_Development_2/cart.html" id="cart-icon" onclick="updateCartIcon()">
+        <a href="#" id="cart-icon" onclick="openCartPopup()">
+          <img src="../Web_Development_2/images/Shopping cart.jpeg">
+        </a>
+        <span id="cart-count">0</span>
+        <span id="cart-total"></span>
+      </a>
+</div>
+      <div class="dropdown">
+        <button class="dropbtn"><b>My Account<b> 
+          <i class="fa fa-caret-down"></i>
+        </button>
+        <div class="dropdown-content">
+          <a href="login.html">Login</a>
+          <a href="register.html">Register</a>
+        </div>
+      </div>
+</nav>
+      <!-- Cart Popup Modal -->
+      <div id="cartPopup" class="modal">
+        <div class="modal-content">
+          <span class="close" onclick="closeCartPopup()">&times;</span>
+          <h2>Shopping Cart</h2>
+          <div class="row">
+            <div class="col-75">
+              <div class="container">
+                <form action="/action_page.php">
+                  <div class="row">
+                    <div class="col-50">
+                      <h3>Billing Address</h3>
+                      <label for="fname"><i class="fa fa-user"></i> Full Name</label>
+                      <input type="text" id="fname" name="firstname" placeholder="John M. Doe">
+                      <label for="email"><i class="fa fa-envelope"></i> Email</label>
+                      <input type="text" id="email" name="email" placeholder="john@example.com">
+                      <label for="adr"><i class="fa fa-address-card-o"></i> Address</label>
+                      <input type="text" id="adr" name="address" placeholder="542 W. 15th Street">
+                      <label for="city"><i class="fa fa-institution"></i> City</label>
+                      <input type="text" id="city" name="city" placeholder="New York">
+                      <div class="row">
+                        <div class="col-50">
+                          <label for="state">State</label>
+                          <input type="text" id="state" name="state" placeholder="NY">
+                        </div>
+                        <div class="col-50">
+                          <label for="zip">Zip</label>
+                          <input type="text" id="zip" name="zip" placeholder="10001">
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-50">
+                      <h3>Payment</h3>
+                      <label for="fname">Accepted Cards</label>
+                      <div class="icon-container">
+                        <i class="fa fa-cc-visa" style="color:navy;"></i>
+                        <i class="fa fa-cc-amex" style="color:blue;"></i>
+                        <i class="fa fa-cc-mastercard" style="color:red;"></i>
+                        <i class="fa fa-cc-discover" style="color:orange;"></i>
+                      </div>
+                      <label for="cname">Name on Card</label>
+                      <input type="text" id="cname" name="cardname" placeholder="John More Doe">
+                      <label for="ccnum">Credit card number</label>
+                      <input type="text" id="ccnum" name="cardnumber" placeholder="1111-2222-3333-4444">
+                      <label for="expmonth">Exp Month</label>
+                      <input type="text" id="expmonth" name="expmonth" placeholder="September">
+                      <div class="row">
+                        <div class="col-50">
+                          <label for="expyear">Exp Year</label>
+                          <input type="text" id="expyear" name="expyear" placeholder="2018">
+                        </div>
+                        <div class="col-50">
+                          <label for="cvv">CVV</label>
+                          <input type="text" id="cvv" name="cvv" placeholder="352">
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <label>
+                    <input type="checkbox" checked="checked" name="sameadr"> Shipping address same as billing
+                  </label>
+                  <input type="submit" value="Continue to checkout" class="btn">
+                </form>
+              </div>
+            </div>
+            <div class="col-25">
+              <div class="container">
+                <h4>Cart <span class="price" style="color:black"><i class="fa fa-shopping-cart"></i> <b id="item-count">0</b></span></h4>
+                <div id="cart-items"></div>
+                <hr>
+                <p>Total <span class="price" style="color:black"><b id="cart-total-amount">£0.00</b></span></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <script>
+        let cartItems = [];
+      
+        // Function to add an item to the cart
+        function addToCart(productName, productPrice) {
+          // Push the item to the cartItems array
+          cartItems.push({ name: productName, price: productPrice });
+          
+          // Update the cart icon and count
+          updateCartIcon();
+      
+          // Alert to indicate that the item has been added to the cart (you can replace this with your own UI logic)
+          alert("Item added to cart");
+        }
+      
+        // Function to update the cart icon and count
+        function updateCartIcon() {
+          const cartCount = document.getElementById("cart-count");
+          const cartTotal = document.getElementById("cart-total");
+      
+          // Update the cart count
+          cartCount.textContent = cartItems.length;
+      
+          // Calculate the total price of items in the cart
+          let total = 0;
+          for (const item of cartItems) {
+              total += item.price;
+          }
+      
+          // Display the cart total
+          cartTotal.textContent = `£${total.toFixed(2)}`;
+      
+          // Show/hide cart count and total based on cartItems length
+          if (cartItems.length === 0) {
+              cartCount.style.display = "none";
+              cartTotal.style.display = "none";
+          } else {
+              cartCount.style.display = "inline";
+              cartTotal.style.display = "inline";
+          }
+        }
+      
+        // Function to open cart popup modal
+        function openCartPopup() {
+          renderCartItems();
+          document.getElementById('cartPopup').style.display = 'block';
+        }
+      
+        // Function to close cart popup modal
+        function closeCartPopup() {
+          document.getElementById('cartPopup').style.display = 'none';
+        }
+      
+        // Function to render cart items in the popup
+        function renderCartItems() {
+          const cartItemsContainer = document.getElementById("cart-items");
+          const itemCount = document.getElementById("item-count");
+          const cartTotalAmount = document.getElementById("cart-total-amount");
+      
+          // Clear existing items
+          cartItemsContainer.innerHTML = '';
+      
+          // Render new items
+          let total = 0;
+          for (const item of cartItems) {
+            const itemElement = document.createElement("p");
+            itemElement.innerHTML = `<a href="#">${item.name}</a> <span class="price">£${item.price.toFixed(2)}</span>`;
+            cartItemsContainer.appendChild(itemElement);
+            total += item.price;
+          }
+      
+          // Update total amount
+          cartTotalAmount.textContent = `£${total.toFixed(2)}`;
+      
+          // Update item count
+          itemCount.textContent = cartItems.length;
+        }
+      </script>
+<!-- Black Color Stripe -->
+<div class="black-stripe"></div>
+
+
+<!-- Perfume Oils Section -->
+<main>
+    <h1>Perfume Oils</h1>
+    <div class="product-grid">
+        <!-- Product Card 1 -->
+        <div class="product-card">
+          <img src="../Web_Development_2/images/perfume oil 5.jpeg" alt="Sensual Whisper">
+          <h3>Sensual Whisper</h3>
+          <p class="price">Price: £24.99</p>
+          <button onclick="addToCart('Sensual Whisper', 24.99)">Add to Cart</button>
+          <div class="description">
+            <p>Experience the Sensual Whisper of this enchanting perfume oil, a delicate blend that captivates the senses.</p>
+          </div>
+        </div>
+        
+        <div class="product-card">
+          <img src="../Web_Development_2/images/perfume oil 2.jpeg" alt="Mystical Aura">
+          <h3>Mystical Aura</h3>
+          <p class="price">Price: £29.50</p>
+          <button onclick="addToCart('Mystical Aura', 29.50)">Add to Cart</button>
+          <div class="description">
+            <p>Embark on a journey with the Mystical Aura, a perfume oil that evokes a sense of wonder and mystery.</p>
+          </div>
+        </div>
+        
+        <div class="product-card">
+          <img src="../Web_Development_2/images/perfume oil 3.jpeg" alt="Divine Essence">
+          <h3>Divine Essence</h3>
+          <p class="price">Price: £19.75</p>
+          <button onclick="addToCart('Divine Essence', 19.75)">Add to Cart</button>
+          <div class="description">
+            <p>Indulge in the Divine Essence of this luxurious perfume oil, a heavenly scent that uplifts the spirit.</p>
+          </div>
+        </div>
+        
+        <div class="product-card">
+          <img src="../Web_Development_2/images/perfume oil 4.jpg" alt="Ethereal Dream">
+          <h3>Ethereal Dream</h3>
+          <p class="price">Price: £22.99</p>
+          <button onclick="addToCart('Ethereal Dream', 22.99)">Add to Cart</button>
+          <div class="description">
+            <p>Drift into an Ethereal Dream with this exquisite perfume oil, a fragrance that transports you to a realm of fantasy.</p>
+          </div>
+        </div>
+
+        <!-- Add more product cards as needed -->
+    </div>
+</main>
+
+<!-- Footer Section -->
+<footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Shop</a></li>
+          <li><a href="#">Women</a></li>
+          <li><a href="#">Men</a></li>
+          <li><a href="#">Perfume Oils</a></li>
+          <li><a href="#">Recommended</a></li>
+          <li><a href="#">Offers</a></li>
+          <li><a href="#">About</a></li>
+        </ul>
+      </div>
+  
+      <div class="footer-section">
+        <h3>Contact Us</h3>
+        <p>Chamberlain Place, Birmingham</p>
+        <p>Email: ahmedasghar4@gmail.com</p>
+        <p>Phone: +447774752118</p>
+      </div>
+  
+    <div class="footer-section">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <h3>Connect with Us</h3>
+      <div class="social-icons">
+        <a href="https://www.facebook.com" class="fa fa-facebook"></a>
+        <a href="https://www.twitter.com" class="fa fa-twitter"></a>
+        <a href="https://www.instagram.com" class="fa fa-instagram"></a>
+        <a href="#" class="fa fa-snapchat-ghost"></a>
+        </div>
+      </div>
+    </div>
+  
+  
+  <!-- Newsletter Subscription Section -->
+  <div class="newsletter-container">
+    <div class="newsletter">
+        <h2>Subscribe to Our Newsletter</h2>
+        <p>Stay updated with our latest products and exclusive offers!</p>
+        <form id="newsletterForm" onsubmit="submitForm(event)">
+            <input type="email" id="emailInput" placeholder="Your Email" required>
+            <button type="submit">Subscribe</button>
+        </form>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>&copy; 2024 Musk Aroma. All Rights Reserved.</p>
+  </div>
+  </footer>
+  
+  
+</body>
+
+</html>
