@@ -1,6 +1,5 @@
 <?php
 // Database credentials must be provided by the server environment.
-// Never commit real passwords, API keys, or database credentials to GitHub.
 $host = getenv('DB_HOST') ?: 'localhost';
 $username = getenv('DB_USERNAME');
 $password = getenv('DB_PASSWORD');
